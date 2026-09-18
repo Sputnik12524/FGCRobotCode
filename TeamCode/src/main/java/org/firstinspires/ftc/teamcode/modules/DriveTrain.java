@@ -31,6 +31,9 @@ public class DriveTrain {
     }
 
     public void setPowerMecanum(double main, double side, double rotation) {
-
+        leftFront.setPower(main+side+rotation);
+        rightFront.setPower(main - side - rotation);
+        leftBack.setPower(main - side + rotation);
+        rightBack.setPower(main + side - rotation);
     }
 }
