@@ -17,6 +17,9 @@ public class Intake {
         intake.setPower(power);
     }
     public void rotateOut(double power){
-        intake.setPower(power);
+        intake.setPower(-power);
+    }
+    public void rotateStop(){
+        intake.setPower(0);
     }
 }
