@@ -1,14 +1,19 @@
 package org.firstinspires.ftc.teamcode.modules;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
 public class DriveTrain {
 
     private DcMotor leftFront, leftBack, rightFront, rightBack;
+    private IMU imu;
     LinearOpMode linearOpMode;
 
     public static double multiplier;
@@ -21,6 +26,14 @@ public class DriveTrain {
         leftBack = linearOpMode.hardwareMap.get(DcMotor.class, "leftBack");
         rightFront = linearOpMode.hardwareMap.get(DcMotor.class, "rightFront");
         rightBack = linearOpMode.hardwareMap.get(DcMotor.class, "rightBack");
+        imu = linearOpMode.hardwareMap.get(IMU.class, "imu");
+
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot
+                (RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+
+        imu.initialize(parameters);
+        imu.resetYaw();
 
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -64,6 +77,17 @@ public class DriveTrain {
         leftBack.setPower(multiplier * (main_power - side_power + rotate_power));
         rightFront.setPower(multiplier * (main_power - side_power - rotate_power));
         rightBack.setPower(multiplier * (main_power + side_power - rotate_power));
+    }
+
+    public void setPowerFieldCentric(double y, double x, double rx, double denominator) {
+        leftFront.setPower(((y + x + rx)/denominator));
+        leftBack.setPower(((y - x + rx)/denominator));
+        rightFront.setPower((y - x - rx)/denominator);
+        rightBack.setPower((y + x - rx)/denominator);
+    }
+
+    public double getYaw(AngleUnit unit) {
+        return imu.getRobotYawPitchRollAngles().getYaw(unit);
     }
 
 }
