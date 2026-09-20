@@ -2,24 +2,19 @@ package org.firstinspires.ftc.teamcode.modules;
 
 
 import com.acmerobotics.dashboard.config.Config;
-import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @Config
 public class Shooter {
 
-    public final DcMotorEx shooter;
+    public final DcMotorEx shooterUpper, shooterLower;
     private final VoltageSensor batteryVoltageSensor;
 
     LinearOpMode opMode;
@@ -51,15 +46,16 @@ public class Shooter {
 
     public Shooter(LinearOpMode opMode) {
         this.opMode = opMode;
-        shooter = opMode.hardwareMap.get(DcMotorEx.class, "shooter");
+        shooterUpper = opMode.hardwareMap.get(DcMotorEx.class, "shooterUpper");
+        shooterLower = opMode.hardwareMap.get(DcMotorEx.class, "shooterLower");
         batteryVoltageSensor = opMode.hardwareMap.voltageSensor.iterator().next();
 
-        shooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        shooterUpper.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        shooterUpper.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooterUpper.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        setPIDFCoefficients(shooter, MOTOR_VELO_PID_SHOOTERS);
+        setPIDFCoefficients(shooterUpper, MOTOR_VELO_PID_SHOOTERS);
     }
 
 
@@ -74,29 +70,29 @@ public class Shooter {
     }
 
     public void shootByVelocity() {
-        shooter.setVelocity(velocityTarget);
+        shooterUpper.setVelocity(velocityTarget);
     }
 
     public void shootStop() {
-        shooter.setVelocity(0);
+        shooterUpper.setVelocity(0);
     }
 
     public double getAmps() {
-        return shooter.getCurrent(CurrentUnit.AMPS);
+        return shooterUpper.getCurrent(CurrentUnit.AMPS);
     }
 
     //---------------------------------------------- GETTING
 
     public double getVelocityRPS() {
-        return (shooter.getVelocity()) / (TPR * 2);
+        return (shooterUpper.getVelocity()) / (TPR * 2);
     }
 
     public double getVelocityUpper() {
-        return shooter.getVelocity() / TPR;
+        return shooterUpper.getVelocity() / TPR;
     }
 
     public double getVelocityTPS() {
-        return shooter.getVelocity();
+        return shooterUpper.getVelocity();
     }
 
 

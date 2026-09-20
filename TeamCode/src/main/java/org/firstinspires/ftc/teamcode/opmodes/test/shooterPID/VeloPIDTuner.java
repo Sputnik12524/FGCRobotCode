@@ -27,7 +27,7 @@ public class VeloPIDTuner extends LinearOpMode {
     public void runOpMode() {
         Shooter sh = new Shooter(this);
         // Change my id
-        DcMotorEx myMotor = sh.shooter;
+        DcMotorEx myMotor = sh.shooterUpper;
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
