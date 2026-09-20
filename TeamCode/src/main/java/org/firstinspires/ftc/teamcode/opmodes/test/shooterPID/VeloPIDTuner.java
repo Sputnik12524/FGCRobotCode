@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.modules.Shooter;
+import org.firstinspires.ftc.teamcode.opmodes.test.shooterPID.TuningController;
 
 @Config
 @TeleOp (name = "VeloPID Tuner", group = "4")
@@ -28,6 +29,7 @@ public class VeloPIDTuner extends LinearOpMode {
         Shooter sh = new Shooter(this);
         // Change my id
         DcMotorEx myMotor = sh.shooterUpper;
+        DcMotorEx myMotor1 = sh.shooterLower;
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
@@ -36,9 +38,11 @@ public class VeloPIDTuner extends LinearOpMode {
         MotorConfigurationType motorConfigurationType = myMotor.getMotorType().clone();
         motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
         myMotor.setMotorType(motorConfigurationType);
+        myMotor1.setMotorType(motorConfigurationType);
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
         setPIDFCoefficients(myMotor, MOTOR_VELO_PID_SHOOTERS);
+        setPIDFCoefficients(myMotor1, MOTOR_VELO_PID_SHOOTERS);
 
         TuningController tuningController = new TuningController();
 
@@ -62,18 +66,23 @@ public class VeloPIDTuner extends LinearOpMode {
         while (!isStopRequested() && opModeIsActive()) {
             double targetVelo = tuningController.update();
             myMotor.setVelocity(targetVelo);
+            myMotor1.setVelocity(targetVelo);
 
             telemetry.addData("targetVelocity", targetVelo);
 
             double motorVelo = myMotor.getVelocity();
+            double motorVelo1 = myMotor1.getVelocity();
             telemetry.addData("velocityUp", motorVelo);
             telemetry.addData("errorUp", targetVelo - motorVelo);
+            telemetry.addData("velocityDown", motorVelo1);
+            telemetry.addData("errorDown", targetVelo - motorVelo1);
 
             telemetry.addData("upperBound", TuningController.rpmToTicksPerSecond(TuningController.TESTING_MAX_SPEED * 1.15));
             telemetry.addData("lowerBound", 0);
 
             if (lastKp != MOTOR_VELO_PID_SHOOTERS.p || lastKi != MOTOR_VELO_PID_SHOOTERS.i || lastKd != MOTOR_VELO_PID_SHOOTERS.d || lastKf != MOTOR_VELO_PID_SHOOTERS.f) {
                 setPIDFCoefficients(myMotor, MOTOR_VELO_PID_SHOOTERS);
+                setPIDFCoefficients(myMotor1, MOTOR_VELO_PID_SHOOTERS);
 
                 lastKp = MOTOR_VELO_PID_SHOOTERS.p;
                 lastKi = MOTOR_VELO_PID_SHOOTERS.i;

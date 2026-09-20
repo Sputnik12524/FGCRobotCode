@@ -51,11 +51,14 @@ public class Shooter {
         batteryVoltageSensor = opMode.hardwareMap.voltageSensor.iterator().next();
 
         shooterUpper.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        shooterLower.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         shooterUpper.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        shooterLower.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        shooterUpper.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooterUpper.setDirection(DcMotorEx.Direction.REVERSE);
 
         setPIDFCoefficients(shooterUpper, MOTOR_VELO_PID_SHOOTERS);
+        setPIDFCoefficients(shooterLower, MOTOR_VELO_PID_SHOOTERS);
     }
 
 
@@ -69,19 +72,32 @@ public class Shooter {
         velocityTarget = targetInRPS * TPR;
     }
 
+
+    public void shootUpperVelo(){
+        shooterUpper.setVelocity(velocityTarget);
+    }
+    public void shootLowerVelo() {
+        shooterLower.setVelocity(velocityTarget);
+    }
     public void shootByVelocity() {
         shooterUpper.setVelocity(velocityTarget);
+        shooterLower.setVelocity(velocityTarget);
     }
 
     public void shootStop() {
         shooterUpper.setVelocity(0);
-    }
-
-    public double getAmps() {
-        return shooterUpper.getCurrent(CurrentUnit.AMPS);
+        shooterLower.setVelocity(0);
     }
 
     //---------------------------------------------- GETTING
+
+
+    public double getUpperAmps() {
+        return shooterUpper.getCurrent(CurrentUnit.AMPS);
+    }
+    public double getLowerAmps() {
+        return shooterLower.getCurrent(CurrentUnit.AMPS);
+    }
 
     public double getVelocityRPS() {
         return (shooterUpper.getVelocity()) / (TPR * 2);
@@ -90,10 +106,14 @@ public class Shooter {
     public double getVelocityUpper() {
         return shooterUpper.getVelocity() / TPR;
     }
+    public double getVelocityLower() {
+        return shooterLower.getVelocity()/TPR;
+    }
 
-    public double getVelocityTPS() {
+    public double getUpperVelocityTPS() {
         return shooterUpper.getVelocity();
     }
+    public double getLowerVelocityTPS(){return shooterLower.getVelocity();}
 
 
 }
