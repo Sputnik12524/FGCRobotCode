@@ -151,12 +151,11 @@ public class DriveTrain {
         driveRobotCentric(main, side, rotation);
     }
 
-    public void setMotorsPowerNonLinear(double main, double side, double rotation) {
+    public void setMotorsPowerNonLinear(double main, double rotation) {
         double mainPower = main + (1 - Math.abs(main)) * main * Math.abs(Math.pow(main, p - 1));
-        double sidePower = side + (1 - Math.abs(side)) * side * Math.abs(Math.pow(side, p - 1));
         double rotatePower = rotation + (1 - Math.abs(rotation)) * rotation * Math.abs(Math.pow(rotation, p - 1));
 
-        driveRobotCentric(mainPower, sidePower, rotatePower);
+        setSimplePower(mainPower, rotatePower);
     }
 
     /**

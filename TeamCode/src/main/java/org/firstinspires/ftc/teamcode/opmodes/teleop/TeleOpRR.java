@@ -26,7 +26,7 @@ public class TeleOpRR extends LinearOpMode {
             double main = -gamepad1.left_stick_y;
             double side = gamepad1.left_stick_x;
             double rotate = gamepad1.right_trigger - gamepad1.left_trigger;
-            dt.setMotorsPowerNonLinear(main, side, rotate);
+            dt.setMotorsPowerNonLinear(main, rotate);
 
             if(gamepad1.a && !stateA && !shState) {
                 sh.setVelocityTarget(Shooter.VELOCITY_FOR_LONG_THROW);

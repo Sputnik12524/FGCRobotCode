@@ -22,7 +22,7 @@ public class DriveTrainTest extends LinearOpMode {
             double side = gamepad1.left_stick_x;
             double rotate = gamepad1.right_trigger - gamepad1.left_trigger;
 
-            dt.setPowerOmniSimple(main, side, rotate);
+            dt.setSimplePower(main, rotate);
             if (gamepad1.a && !aState && !multiplierState) {
                 DriveTrain.multiplier = 0.5;
                 multiplierState = true;
