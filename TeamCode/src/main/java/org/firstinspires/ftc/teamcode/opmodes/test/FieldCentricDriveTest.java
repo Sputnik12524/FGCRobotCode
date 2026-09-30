@@ -28,7 +28,7 @@ public class FieldCentricDriveTest extends LinearOpMode {
 
             double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotation), 1);
 
-            dt.setPowerFieldCentric(rotY, rotX, rotation, denominator);
+         //   dt.setPowerFieldCentric(rotY, rotX, rotation, denominator);
 
             telemetry.addData("Bot Heading", botHeading);
             telemetry.addData("rotX", rotX);

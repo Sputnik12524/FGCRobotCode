@@ -76,10 +76,7 @@ public class DriveTrain {
     public void setSimplePower(double main, double rotate) {
         setMotorPowers(
                 main + rotate,
-                main + rotate,
-                main - rotate,
-                main - rotate
-        );
+                main - rotate);
     }
 
     /**
@@ -98,30 +95,18 @@ public class DriveTrain {
      * Adjacent wheel rolling directions are 90 degrees apart.
      *
      * @param forward +1 = robot forward
-     * @param strafe  +1 = robot right
      * @param turn    +1 = rotate right / clockwise (normally)
      */
-    public void driveRobotCentric(double forward, double strafe, double turn) {
+    public void driveRobotCentric(double forward, double turn) {
         turn *= turnMultiplier;
 
-        double lf = forward + strafe + turn;
-        double lb = forward - strafe + turn;
-        double rf = forward - strafe - turn;
-        double rb = forward + strafe - turn;
+        double lf = forward  + turn;
+        double rf = forward  - turn;
 
-        double denominator = Math.max(
-                1.0,
-                Math.max(
-                        Math.max(Math.abs(lf), Math.abs(lb)),
-                        Math.max(Math.abs(rf), Math.abs(rb))
-                )
-        );
 
         setMotorPowers(
-                lf / denominator,
-                lb / denominator,
-                rf / denominator,
-                rb / denominator
+                lf ,
+                rf
         );
     }
 
@@ -133,22 +118,22 @@ public class DriveTrain {
      * @param fieldRight   +1 = field right
      * @param turn         rotation command
      */
-    public void driveFieldCentric(double fieldForward, double fieldRight, double turn) {
-        double heading = getYaw(AngleUnit.RADIANS);
-
-        // Rotate the field vector by -heading to convert it to robot coordinates.
-        double cos = Math.cos(heading);
-        double sin = Math.sin(heading);
-
-        double robotRight = fieldRight * cos + fieldForward * sin;
-        double robotForward = -fieldRight * sin + fieldForward * cos;
-
-        driveRobotCentric(robotForward, robotRight, turn);
-    }
+//    public void driveFieldCentric(double fieldForward, double turn) {
+//        double heading = getYaw(AngleUnit.RADIANS);
+//
+//        // Rotate the field vector by -heading to convert it to robot coordinates.
+//        double cos = Math.cos(heading);
+//        double sin = Math.sin(heading);
+//
+//        double robotRight = fieldRight * cos + fieldForward * sin;
+//        double robotForward = -fieldRight * sin + fieldForward * cos;
+//
+//        driveRobotCentric(robotForward, robotRight, turn);
+//    }
 
     /** Backwards-compatible method from your old class. */
-    public void setPowerOmniSimple(double main, double side, double rotation) {
-        driveRobotCentric(main, side, rotation);
+    public void setPowerOmniSimple(double main, double rotation) {
+        driveRobotCentric(main, rotation);
     }
 
     public void setMotorsPowerNonLinear(double main, double rotation) {
@@ -162,28 +147,24 @@ public class DriveTrain {
      * Backwards-compatible low-level mixer.
      * y/x must already be in ROBOT coordinates.
      */
-    public void setPowerFieldCentric(double y, double x, double rx, double denominator) {
+    public void setPowerFieldCentric(double y,  double rx, double denominator) {
         double safeDenominator = Math.max(1.0, Math.abs(denominator));
 
         setMotorPowers(
-                (y + x + rx) / safeDenominator,
-                (y - x + rx) / safeDenominator,
-                (y - x - rx) / safeDenominator,
-                (y + x - rx) / safeDenominator
+                (y + rx) / safeDenominator,
+                (y - rx) / safeDenominator
         );
     }
 
-    private void setMotorPowers(double lf, double lb, double rf, double rb) {
+    private void setMotorPowers(double lf,  double rf) {
         double scale = Range.clip(multiplier, 0.0, 1.0);
 
         leftFront.setPower(Range.clip(lf * scale, -1.0, 1.0));
-        leftBack.setPower(Range.clip(lb * scale, -1.0, 1.0));
         rightFront.setPower(Range.clip(rf * scale, -1.0, 1.0));
-        rightBack.setPower(Range.clip(rb * scale, -1.0, 1.0));
     }
 
     public void stop() {
-        setMotorPowers(0, 0, 0, 0);
+        setMotorPowers(0,  0);
     }
 
     public void resetYaw() {

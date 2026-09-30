@@ -109,6 +109,10 @@ public class Shooter {
     public double getVelocityLower() {
         return shooterLower.getVelocity()/TPR;
     }
+    public void setMotorsPower(double power) {
+        shooterUpper.setPower(power);
+        shooterLower.setPower(power);
+    }
 
     public double getUpperVelocityTPS() {
         return shooterUpper.getVelocity();

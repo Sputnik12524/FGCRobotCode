@@ -17,6 +17,8 @@ public class Intake {
         intake = linearOpMode.hardwareMap.get(DcMotor.class, "intake");
         extensionLeft = linearOpMode.hardwareMap.get(Servo.class, "extL");
         extensionRight = linearOpMode.hardwareMap.get(Servo.class, "extR");
+
+        extensionLeft.setDirection(Servo.Direction.REVERSE);
     }
 
     public void rotateIn(double power) {

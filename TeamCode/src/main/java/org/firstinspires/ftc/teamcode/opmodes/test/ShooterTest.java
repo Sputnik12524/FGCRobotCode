@@ -3,33 +3,46 @@ package org.firstinspires.ftc.teamcode.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.modules.DriveTrain;
-import org.firstinspires.ftc.teamcode.modules.Intake;
-
+import org.firstinspires.ftc.teamcode.modules.Shooter;
 
 @TeleOp
 public class ShooterTest extends LinearOpMode {
 
-    public boolean intakeState = false;
-    public boolean aState = false;
+    public static double POWER = 0.5;
+
+    boolean stateA = false;
+    boolean stateB = false;
+    boolean motorState = false;
+    boolean mState = false;
+
     @Override
     public void runOpMode() {
-        Intake in = new Intake(this);
+        Shooter sh = new Shooter(this);
 
         waitForStart();
 
-        while(opModeIsActive()){
+        while (opModeIsActive()){
 
-            if (gamepad1.a && !aState && !intakeState) {
-                in.rotateIn(1);
-                intakeState = true;
-            } else if (gamepad1.a && !aState && intakeState){
-                in.rotateOut(1);
-                intakeState = false;
-            } else {
-                in.rotateStop();
+            if(gamepad1.a && !stateA && !motorState) {
+                sh.setMotorsPower(POWER);
+                motorState = true;
+            } else if (gamepad1.a && !stateA && motorState) {
+                sh.setMotorsPower(0);
+                motorState = false;
             }
-            aState = gamepad1.a;
+
+            if(gamepad1.b && !stateB && !mState) {
+                sh.setMotorsPower(-POWER);
+                mState = true;
+            } else if (gamepad1.b && !stateB && mState) {
+                sh.setMotorsPower(0);
+                mState = false;
+            }
+            stateA = gamepad1.a;
+            stateB = gamepad1.b;
+            telemetry.addData("power = ", POWER);
+            telemetry.update();
+
         }
     }
 }

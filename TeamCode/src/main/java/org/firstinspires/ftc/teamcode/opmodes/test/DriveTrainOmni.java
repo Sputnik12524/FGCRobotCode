@@ -31,7 +31,7 @@ public class DriveTrainOmni extends LinearOpMode {
             }
             previousOptions = gamepad1.options;
 
-            dt.driveFieldCentric(forward, right, turn);
+          //  dt.driveFieldCentric(forward, turn);
         }
 
         dt.stop();
