@@ -15,18 +15,18 @@ public class ServoTest extends LinearOpMode {
 
         double diff = 0.01;
 
-        while(opModeIsActive()) {
-            double currentL = in.getLeftExtensionPose();
-            double currentR = in.getRightExtensionPose();
-            if (gamepad1.a) {
-                in.setExtensionLeftPosition(currentL+diff);
-            } else if (gamepad1.b) {
-                in.setExtensionLeftPosition(currentL-diff);
-            } else if (gamepad1.x) {
-                in.setExtensionRightPosition(currentR+diff);
-            } else if (gamepad1.y) {
-                in.setExtensionRightPosition(currentR-diff);
-            }
+//        while(opModeIsActive()) {
+//            double currentL = in.getLeftExtensionPose();
+//            double currentR = in.getRightExtensionPose();
+//            if (gamepad1.a) {
+//                in.setExtensionLeftPower(currentL+diff);
+//            } else if (gamepad1.b) {
+//                in.setExtensionLeftPower(currentL-diff);
+//            } else if (gamepad1.x) {
+//                in.setExtensionRightPower(currentR+diff);
+//            } else if (gamepad1.y) {
+//                in.setExtensionRightPower(currentR-diff);
+//            }
         }
     }
-}
+
