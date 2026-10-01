@@ -11,7 +11,7 @@ public class Intake {
 
     private final DcMotor extensionLeft, extensionRight;
     LinearOpMode linearOpMode;
-    public static double EXT_POSE_MAX = 1;
+    public static double EXT_POSE_MAX = 1000;
     public static double EXT_POSE_MIN = 0;
     double rightError, leftError;
     public static double kP = 0;
@@ -100,7 +100,14 @@ public class Intake {
     }
 
     public void turnInLimits(double powerL, double powerR) {
-        if(getCurrentLeftPoseOfExtension() > 0 && getCurrentLeftPoseOfExtension() < EXT_POSE_MAX) {
+        boolean leftInLimits =
+                currentLeftPoseOfExtension > EXT_POSE_MIN &&
+                        currentLeftPoseOfExtension < EXT_POSE_MAX;
+
+        boolean rightInLimits =
+                currentRightPoseOfExtension > EXT_POSE_MIN &&
+                        currentRightPoseOfExtension < EXT_POSE_MAX;
+        if(leftInLimits && rightInLimits) {
            setExtensionPower(powerL, powerR);
         } else {
             setExtensionPower(0);
