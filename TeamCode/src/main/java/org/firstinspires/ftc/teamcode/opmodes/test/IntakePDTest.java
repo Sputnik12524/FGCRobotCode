@@ -8,37 +8,30 @@ import org.firstinspires.ftc.teamcode.modules.Intake;
 
 @Config
 @TeleOp
-public class IntakeExtensionTest extends LinearOpMode {
+public class IntakePDTest extends LinearOpMode {
 
-    public static double POWER = 0.9;
+    public static double target = 500;
 
     boolean stateA = false;
     boolean stateB = false;
     boolean motorState = false;
     boolean mState = false;
+
     @Override
     public void runOpMode() {
         Intake in = new Intake(this);
 
-
-        in.setExtensionLeftPower(0);
-        in.setExtensionRightPower(0);
-
+        Intake.extensionController.start();
         waitForStart();
 
-        while(opModeIsActive()){
-            if(gamepad1.a) {
-                in.setExtensionPower(POWER);
-            } else {
-                in.setExtensionPower(0);
+        while (opModeIsActive()) {
+            if (gamepad1.a) {
+                in.setTarget(target);
             }
-
-            if(gamepad1.b) {
-                in.setExtensionPower(-POWER);
-            } else {
-                in.setExtensionPower(0);
+            if (gamepad1.bWasPressed()) {
+                target += 10;
             }
-            telemetry.addData("power = ", POWER);
+            telemetry.addData("target = ", target);
             telemetry.update();
 
         }
