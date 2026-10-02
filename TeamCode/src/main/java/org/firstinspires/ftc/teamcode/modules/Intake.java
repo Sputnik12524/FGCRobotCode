@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Config
 public class Intake {
     private final DcMotor intake;
+    private final DcMotor transfer;
 
     private final DcMotor extensionLeft, extensionRight;
     LinearOpMode linearOpMode;
@@ -29,6 +30,7 @@ public class Intake {
     public Intake(LinearOpMode aggregate) {
         linearOpMode = aggregate;
         intake = linearOpMode.hardwareMap.get(DcMotor.class, "intake");
+        transfer = linearOpMode.hardwareMap.get(DcMotor.class, "transfer");
         extensionLeft = linearOpMode.hardwareMap.get(DcMotor.class, "extL");
         extensionRight = linearOpMode.hardwareMap.get(DcMotor.class, "extR");
 
@@ -57,6 +59,10 @@ public class Intake {
 
     public void rotateStop() {
         intake.setPower(0);
+    }
+
+    public void setPowerTransfer(double power){
+        transfer.setPower(power);
     }
 
     public void setExtensionLeftPower(double power) {
