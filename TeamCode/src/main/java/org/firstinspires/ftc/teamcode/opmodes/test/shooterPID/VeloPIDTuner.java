@@ -13,7 +13,6 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.modules.Shooter;
-import org.firstinspires.ftc.teamcode.opmodes.test.shooterPID.TuningController;
 
 @Config
 @TeleOp (name = "VeloPID Tuner", group = "4")
@@ -28,8 +27,8 @@ public class VeloPIDTuner extends LinearOpMode {
     public void runOpMode() {
         Shooter sh = new Shooter(this);
         // Change my id
-        DcMotorEx myMotor = sh.shooterUpper;
-        DcMotorEx myMotor1 = sh.shooterLower;
+        DcMotorEx myMotor = sh.shooterRight;
+        DcMotorEx myMotor1 = sh.shooterLeft;
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);

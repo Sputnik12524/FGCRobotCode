@@ -14,9 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class DriveTrain {
 
     private final DcMotor leftFront;
-    private final DcMotor leftBack;
     private final DcMotor rightFront;
-    private final DcMotor rightBack;
     private final IMU imu;
     private final LinearOpMode linearOpMode;
 
@@ -31,16 +29,14 @@ public class DriveTrain {
     public DriveTrain(LinearOpMode aggregate) {
         linearOpMode = aggregate;
 
-        leftFront = linearOpMode.hardwareMap.get(DcMotor.class, "leftFront");
-        leftBack = linearOpMode.hardwareMap.get(DcMotor.class, "leftBack");
-        rightFront = linearOpMode.hardwareMap.get(DcMotor.class, "rightFront");
-        rightBack = linearOpMode.hardwareMap.get(DcMotor.class, "rightBack");
+        leftFront = linearOpMode.hardwareMap.get(DcMotor.class, "dtLeft");
+        rightFront = linearOpMode.hardwareMap.get(DcMotor.class, "dtRight");
         imu = linearOpMode.hardwareMap.get(IMU.class, "imu");
 
         IMU.Parameters parameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                        RevHubOrientationOnRobot.UsbFacingDirection.UP
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.DOWN
                 )
         );
 
@@ -53,24 +49,16 @@ public class DriveTrain {
          * change ONLY these direction settings, not the X-drive equations.
          */
         leftFront.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        rightBack.setDirection(DcMotor.Direction.FORWARD);
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void setSimplePower(double main, double rotate) {
