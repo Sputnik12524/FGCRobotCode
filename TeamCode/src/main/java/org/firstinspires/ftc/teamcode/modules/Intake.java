@@ -101,6 +101,7 @@ public class Intake {
         }
     }
 
+
     public void setTarget(double target) {
         Intake.target = target;
     }
@@ -125,24 +126,24 @@ public class Intake {
             setExtensionRightPower(0);
         }
     }
-}
 
-public void setExtensionPower(double powerL, double powerR) {
-    extensionRight.setPower(powerR);
-    extensionLeft.setPower(powerL);
-}
 
-public void setExtensionPower(double power) {
-    extensionRight.setPower(power);
-    extensionLeft.setPower(power);
-}
+    public void setExtensionPower(double powerL, double powerR) {
+        extensionRight.setPower(powerR);
+        extensionLeft.setPower(powerL);
+    }
 
-public double getCurrentLeftPoseOfExtension() {
-    return extensionLeft.getCurrentPosition();
-}
+    public void setExtensionPower(double power) {
+        extensionRight.setPower(power);
+        extensionLeft.setPower(power);
+    }
 
-public double getCurrentRightPoseOfExtension() {
-    return extensionRight.getCurrentPosition();
-}
+    public double getCurrentLeftPoseOfExtension() {
+        return extensionLeft.getCurrentPosition();
+    }
+
+    public double getCurrentRightPoseOfExtension() {
+        return extensionRight.getCurrentPosition();
+    }
 
 }
