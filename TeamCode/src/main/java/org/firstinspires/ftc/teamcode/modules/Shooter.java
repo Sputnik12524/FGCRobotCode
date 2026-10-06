@@ -72,10 +72,10 @@ public class Shooter {
     }
 
 
-    public void shootUpperVelo(){
+    public void shootRightVelo(){
         shooterRight.setVelocity(velocityTarget);
     }
-    public void shootLowerVelo() {
+    public void shootLeftVelo() {
         shooterLeft.setVelocity(velocityTarget);
     }
     public void shootByVelocity() {
@@ -91,10 +91,10 @@ public class Shooter {
     //---------------------------------------------- GETTING
 
 
-    public double getUpperAmps() {
+    public double getRightAmps() {
         return shooterRight.getCurrent(CurrentUnit.AMPS);
     }
-    public double getLowerAmps() {
+    public double getLeftAmps() {
         return shooterLeft.getCurrent(CurrentUnit.AMPS);
     }
 
@@ -102,10 +102,10 @@ public class Shooter {
         return (shooterRight.getVelocity()) / (TPR * 2);
     }
 
-    public double getVelocityUpper() {
+    public double getVelocityRight() {
         return shooterRight.getVelocity() / TPR;
     }
-    public double getVelocityLower() {
+    public double getVelocityLeft() {
         return shooterLeft.getVelocity()/TPR;
     }
     public void setMotorsPower(double power) {
@@ -113,10 +113,10 @@ public class Shooter {
         shooterLeft.setPower(-power);
     }
 
-    public double getUpperVelocityTPS() {
+    public double getRightVelocityTPS() {
         return shooterRight.getVelocity();
     }
-    public double getLowerVelocityTPS(){return shooterLeft.getVelocity();}
+    public double getLeftVelocityTPS(){return shooterLeft.getVelocity();}
 
 
 }

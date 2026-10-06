@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.modules.Intake;
 @TeleOp
 public class IntakePDTest extends LinearOpMode {
 
-    public static double target = 500;
+    public static double target = 0;
 
     boolean stateA = false;
     boolean stateB = false;
@@ -25,9 +25,8 @@ public class IntakePDTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad1.a) {
-                in.setTarget(target);
-            }
+            in.setTarget(target);
+
             if (gamepad1.bWasPressed()) {
                 target += 10;
             }
@@ -35,5 +34,6 @@ public class IntakePDTest extends LinearOpMode {
             telemetry.update();
 
         }
+        Intake.extensionController.interrupt();
     }
 }

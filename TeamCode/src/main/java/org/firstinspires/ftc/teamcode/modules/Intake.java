@@ -34,7 +34,7 @@ public class Intake {
         extensionLeft = linearOpMode.hardwareMap.get(DcMotor.class, "extL");
         extensionRight = linearOpMode.hardwareMap.get(DcMotor.class, "extR");
 
-        extensionLeft.setDirection(DcMotor.Direction.REVERSE);
+        extensionRight.setDirection(DcMotor.Direction.REVERSE);
 
         extensionLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extensionRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
