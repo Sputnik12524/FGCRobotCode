@@ -61,7 +61,7 @@ public class Intake {
         intake.setPower(0);
     }
 
-    public void setPowerTransfer(double power){
+    public void setPowerTransfer(double power) {
         transfer.setPower(power);
     }
 
@@ -88,7 +88,7 @@ public class Intake {
                 dErrorL = leftError - pastErrorL;
 
 
-                powerR = rightError * kP  + dErrorR * kD / timerR.milliseconds();
+                powerR = rightError * kP + dErrorR * kD / timerR.milliseconds();
                 powerL = leftError * kP + dErrorL * kD / timerL.milliseconds();
 
                 turnInLimits(powerL, powerR);
@@ -113,28 +113,36 @@ public class Intake {
         boolean rightInLimits =
                 currentRightPoseOfExtension > EXT_POSE_MIN &&
                         currentRightPoseOfExtension < EXT_POSE_MAX;
-        if(leftInLimits && rightInLimits) {
-           setExtensionPower(powerL, powerR);
+
+        if (leftInLimits) {
+            setExtensionLeftPower(powerL);
         } else {
-            setExtensionPower(0);
+            setExtensionLeftPower(0);
+        }
+        if (rightInLimits) {
+            setExtensionRightPower(powerR);
+        } else {
+            setExtensionRightPower(0);
         }
     }
+}
 
-    public void setExtensionPower(double powerL, double powerR) {
-        extensionRight.setPower(powerR);
-        extensionLeft.setPower(powerL);
-    }
-    public void setExtensionPower(double power) {
-        extensionRight.setPower(power);
-        extensionLeft.setPower(power);
-    }
+public void setExtensionPower(double powerL, double powerR) {
+    extensionRight.setPower(powerR);
+    extensionLeft.setPower(powerL);
+}
 
-    public double getCurrentLeftPoseOfExtension() {
-        return extensionLeft.getCurrentPosition();
-    }
+public void setExtensionPower(double power) {
+    extensionRight.setPower(power);
+    extensionLeft.setPower(power);
+}
 
-    public double getCurrentRightPoseOfExtension() {
-        return extensionRight.getCurrentPosition();
-    }
+public double getCurrentLeftPoseOfExtension() {
+    return extensionLeft.getCurrentPosition();
+}
+
+public double getCurrentRightPoseOfExtension() {
+    return extensionRight.getCurrentPosition();
+}
 
 }
