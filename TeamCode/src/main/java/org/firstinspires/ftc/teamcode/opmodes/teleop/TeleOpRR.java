@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.modules.DriveTrain;
 import org.firstinspires.ftc.teamcode.modules.Intake;
@@ -31,37 +32,40 @@ public class TeleOpRR extends LinearOpMode {
     boolean bState = false;
     boolean bumpLState = false;
     boolean bumpRState = false;
+    boolean stateX2 = false;
 
     @Override
     public void runOpMode() {
         DriveTrain dt = new DriveTrain(this);
         Intake in = new Intake(this);
         Shooter sh = new Shooter(this);
+        ElapsedTime timer = new ElapsedTime();
 
         waitForStart();
 
         while (opModeIsActive()) {
+            double time1 = timer.milliseconds();
             double main = gamepad1.left_stick_y;
             double rotate = gamepad1.left_trigger - gamepad1.right_trigger;
             dt.setMotorsPowerNonLinear(main, rotate);
 
-            if (gamepad1.a && !aState && !inState) {
+            if (gamepad1.cross && !aState && !inState) {
                 in.rotateIn(POWER_INTAKE);
                 inState = true;
-            } else if (gamepad1.a && !aState && inState) {
+            } else if (gamepad1.cross && !aState && inState) {
                 in.rotateStop();
                 inState = false;
             }
 
             if (gamepad1.left_bumper && !bumpLState && !trState) {
-                in.setPowerTransfer(POWER_TRANSFER);
+                in.setPowerTransfer(POWER_TRANSFER); // Into the shooter
                 trState = true;
             } else if (gamepad1.left_bumper && !bumpLState && trState) {
                 in.setPowerTransfer(0);
                 trState = false;
             }
             if (gamepad1.right_bumper && !bumpRState && !transState) {
-                in.setPowerTransfer(-POWER_TRANSFER);
+                in.setPowerTransfer(-POWER_TRANSFER); // Out of the shooter
                 transState = true;
             } else if (gamepad1.right_bumper && !bumpRState && transState) {
                 in.setPowerTransfer(0);
@@ -69,10 +73,10 @@ public class TeleOpRR extends LinearOpMode {
             }
 
 
-            if (gamepad1.b && !bState && !outState) {
+            if (gamepad1.circle && !bState && !outState) {
                 in.rotateOut(POWER_INTAKE);
                 outState = true;
-            } else if (gamepad1.b && !bState && outState) {
+            } else if (gamepad1.circle && !bState && outState) {
                 in.rotateStop();
                 outState = false;
             }
@@ -88,12 +92,28 @@ public class TeleOpRR extends LinearOpMode {
                 in.setExtensionPower(0);
             }
 
-            if (gamepad1.x && !stateX && !shState) {
+            if (gamepad1.square && !stateX && !shState) {
                 sh.setMotorsPower(POWER_SHOOTER);
                 shState = true;
-            } else if (gamepad1.x && !stateX && shState) {
+            } else if (gamepad1.square && !stateX && shState) {
                 sh.setMotorsPower(0);
                 shState = false;
+            }
+
+            double shRun = gamepad2.left_stick_y;
+            if (shRun < 0) {
+                sh.setMotorsPower(POWER_SHOOTER);
+            } else {
+                sh.setMotorsPower(0);
+            }
+
+            double transferRun = gamepad2.right_stick_y;
+            if (transferRun > 0) {
+                in.setPowerTransfer(POWER_TRANSFER); // Into the shooter
+            } else if (transferRun < -0){
+                in.setPowerTransfer(-POWER_TRANSFER); // Out of the shooter
+            } else {
+                in.setPowerTransfer(0);
             }
 
 
@@ -107,38 +127,20 @@ public class TeleOpRR extends LinearOpMode {
             } else {
                 in.setExtensionLeftPower(0);
             }
-            if (gamepad2.dpad_left) {
-                in.setExtensionRightPower(POWER_EXTENSION);
-            } else {
-                in.setExtensionRightPower(0);
-            }
-            if(gamepad2.dpad_right) {
-                in.setExtensionRightPower(-POWER_EXTENSION);
-            } else {
-                in.setExtensionRightPower(0);
-            }
 
-            stateX = gamepad1.x;
-            stateY = gamepad1.y;
-            aState = gamepad1.a;
-            bState = gamepad1.b;
+            stateX = gamepad1.square;
+            stateX2 = gamepad2.square;
+            stateY = gamepad1.triangle;
+            aState = gamepad1.cross;
+            bState = gamepad1.circle;
 
             bumpRState = gamepad1.right_bumper;
             bumpLState = gamepad1.left_bumper;
 
-
-//            if(gamepad1.a && !stateA && !shState) {
-//                sh.setVelocityTarget(Shooter.VELOCITY_FOR_LONG_THROW);
-//                shState = true;
-//            } else if(gamepad1.a && !stateA && shState) {
-//                sh.setVelocityTarget(0);
-//                shState = false;
-//            } else if(gamepad1.b && !stateB)
-//            stateA = gamepad1.a;
-
+            double time2 = timer.milliseconds() - time1;
+            telemetry.addData("ping = ", time2);
+            telemetry.update();
         }
-
-
     }
 
 }
