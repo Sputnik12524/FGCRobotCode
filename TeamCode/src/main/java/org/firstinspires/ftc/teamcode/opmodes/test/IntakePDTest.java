@@ -21,7 +21,7 @@ public class IntakePDTest extends LinearOpMode {
     public void runOpMode() {
         Intake in = new Intake(this);
 
-        Intake.extensionController.start();
+        in.extensionController.start();
         waitForStart();
 
         while (opModeIsActive()) {
@@ -31,9 +31,11 @@ public class IntakePDTest extends LinearOpMode {
                 target += 10;
             }
             telemetry.addData("target = ", target);
+            telemetry.addData("Left current:", in.getCurrentLeftPoseOfExtension());
+            telemetry.addData("Right current", in.getCurrentRightPoseOfExtension());
             telemetry.update();
 
         }
-        Intake.extensionController.interrupt();
+        in.extensionController.interrupt();
     }
 }

@@ -15,7 +15,7 @@ public class TeleOpRR extends LinearOpMode {
 
     public static double POWER_TRANSFER = 0.5;
     public static double POWER_INTAKE = 1;
-    public static double POWER_SHOOTER = 1;
+    public static double POWER_SHOOTER = 0.8;
     public static double POWER_EXTENSION = 1;
 
     boolean inState = false;
@@ -57,21 +57,6 @@ public class TeleOpRR extends LinearOpMode {
                 inState = false;
             }
 
-            if (gamepad1.left_bumper && !bumpLState && !trState) {
-                in.setPowerTransfer(POWER_TRANSFER); // Into the shooter
-                trState = true;
-            } else if (gamepad1.left_bumper && !bumpLState && trState) {
-                in.setPowerTransfer(0);
-                trState = false;
-            }
-            if (gamepad1.right_bumper && !bumpRState && !transState) {
-                in.setPowerTransfer(-POWER_TRANSFER); // Out of the shooter
-                transState = true;
-            } else if (gamepad1.right_bumper && !bumpRState && transState) {
-                in.setPowerTransfer(0);
-                transState = false;
-            }
-
 
             if (gamepad1.circle && !bState && !outState) {
                 in.rotateOut(POWER_INTAKE);
@@ -86,19 +71,11 @@ public class TeleOpRR extends LinearOpMode {
             } else {
                 in.setExtensionPower(0);
             }
-            if (gamepad1.dpad_down) {
-                in.setExtensionPower(-POWER_EXTENSION);
-            } else {
-                in.setExtensionPower(0);
-            }
-
-            if (gamepad1.square && !stateX && !shState) {
-                sh.setMotorsPower(POWER_SHOOTER);
-                shState = true;
-            } else if (gamepad1.square && !stateX && shState) {
-                sh.setMotorsPower(0);
-                shState = false;
-            }
+//            if (gamepad1.dpad_down) {
+//                in.setExtensionPower(-POWER_EXTENSION);
+//            } else {
+//                in.setExtensionPower(0);
+//            }
 
             double shRun = gamepad2.left_stick_y;
             if (shRun < 0) {
@@ -138,7 +115,9 @@ public class TeleOpRR extends LinearOpMode {
             bumpLState = gamepad1.left_bumper;
 
             double time2 = timer.milliseconds() - time1;
-            telemetry.addData("ping = ", time2);
+
+            telemetry.addData("Left current:", in.getCurrentLeftPoseOfExtension());
+            telemetry.addData("Right current", in.getCurrentRightPoseOfExtension());
             telemetry.update();
         }
     }

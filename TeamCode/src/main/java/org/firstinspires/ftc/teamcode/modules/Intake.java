@@ -17,15 +17,15 @@ public class Intake {
     double rightError, leftError;
     public static double kP = 0;
     public static double kD = 0;
-    public static double target;
+    public double target;
 
     public double dErrorR, dErrorL;
     public double pastErrorR, pastErrorL;
 
     ElapsedTime timerL, timerR;
 
-    public double currentLeftPoseOfExtension, currentRightPoseOfExtension;
-    public static ExtensionController extensionController;
+    private double currentLeftPoseOfExtension, currentRightPoseOfExtension;
+    public ExtensionController extensionController;
 
     public Intake(LinearOpMode aggregate) {
         linearOpMode = aggregate;
@@ -41,6 +41,8 @@ public class Intake {
 
         extensionLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         extensionRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        extensionController = new ExtensionController();
 
         timerL = new ElapsedTime();
         timerL.reset();
@@ -103,7 +105,7 @@ public class Intake {
 
 
     public void setTarget(double target) {
-        Intake.target = target;
+        this.target = target;
     }
 
     public void turnInLimits(double powerL, double powerR) {
