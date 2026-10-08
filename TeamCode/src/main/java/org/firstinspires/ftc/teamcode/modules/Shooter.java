@@ -17,10 +17,10 @@ public class Shooter {
     private final VoltageSensor batteryVoltageSensor;
 
     LinearOpMode opMode;
-    public static double p = 20;
+    public static double p = 0.001;
     public static double i = 0;
-    public static double d = 20;
-    public static double f = 15;
+    public static double d = 1;
+    public static double f = 14;
 
     public static PIDFCoefficients MOTOR_VELO_PID_SHOOTERS = new PIDFCoefficients(p, i, d, f);
 

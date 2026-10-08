@@ -13,9 +13,9 @@ import org.firstinspires.ftc.teamcode.modules.Shooter;
 @Config
 public class TeleOpRR extends LinearOpMode {
 
-    public static double POWER_TRANSFER = 0.5;
+    public static double POWER_TRANSFER = 1;
     public static double POWER_INTAKE = 1;
-    public static double POWER_SHOOTER = 0.8;
+    public static double POWER_SHOOTER = 0.7;
     public static double POWER_EXTENSION = 1;
 
     boolean inState = false;
